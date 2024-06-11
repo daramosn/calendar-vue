@@ -25,11 +25,11 @@ const reminderClicked = () => {
 
 <style scoped>
 .reminder {
-  padding: 10px;
-  margin: 5px 0;
-  cursor: pointer;
-  border-radius: 4px;
   color: white;
-  font-size: 14px;
+  margin-bottom: 4px;
+  padding: 4px;
+
+  border-radius: 4px;
+  font-size: 12px;
 }
 </style>

@@ -37,7 +37,7 @@ import CardModal from './CardModal.vue'
 import { useUIStore } from '@/stores/ui.store'
 
 const reminderInput = ref<string>('')
-const colorInput = ref<string>('#f0f0f0')
+const colorInput = ref<string>('#6c99de')
 const cityInput = ref<string>('')
 const timeInput = ref<string>('')
 const remindersStore = useRemindersStore()
@@ -74,6 +74,7 @@ const addReminder = () => {
   border-radius: 8px;
   display: grid;
   padding: 64px;
+
   h1 {
     font-weight: 500;
     margin: 0 0 64px 0;

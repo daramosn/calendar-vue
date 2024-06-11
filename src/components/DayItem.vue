@@ -38,7 +38,6 @@ const dayClickedHandler = () => {
   color: black;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   span {
     font-size: 14px;
     font-weight: 700;
@@ -46,23 +45,11 @@ const dayClickedHandler = () => {
     background: #8cbbe99a;
     padding: 0 4px;
     border-radius: 4px;
+    margin-bottom: 8px;
   }
 
   ul {
-    flex-grow: 1;
     flex: 1 1 0;
-    overflow-y: scroll;
-    padding: 0 4px 0 0;
-    margin: 0;
-    list-style: none;
-
-    .reminder {
-      margin-bottom: 4px;
-      padding: 4px;
-      background: rgb(236, 190, 104);
-      border-radius: 8px;
-      font-size: 12px;
-    }
   }
 
   ::-webkit-scrollbar {

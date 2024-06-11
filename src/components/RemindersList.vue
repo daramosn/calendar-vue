@@ -23,7 +23,9 @@ const remindersList = computed(() => remindersStore.remindersCalendar?.[year]?.[
 
 <style>
 .reminders-list {
-  list-style-type: none;
-  padding: 0;
+  overflow-y: scroll;
+  padding: 0 4px 0 0;
+  margin: 0;
+  list-style: none;
 }
 </style>
