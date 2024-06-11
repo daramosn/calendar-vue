@@ -2,10 +2,15 @@
   <section class="month">
     <DayItem v-for="date in monthArray" :key="date" :month="month" :year="year" :date="date" />
   </section>
-  <ReminderForm />
+
+  <CardModal :is-open="uiStore.openFormModal" @backdrop-clicked="uiStore.toggleFormModal">
+    <ReminderForm />
+  </CardModal>
 </template>
 
 <script lang="ts" setup>
+import { useUIStore } from '@/stores/ui.store'
+import CardModal from './CardModal.vue'
 import DayItem from './DayItem.vue'
 import ReminderForm from './ReminderForm.vue'
 interface Props {
@@ -14,6 +19,7 @@ interface Props {
 }
 
 const { month, year } = defineProps<Props>()
+const uiStore = useUIStore()
 
 // const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 

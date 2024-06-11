@@ -1,40 +1,37 @@
 <template>
-  <CardModal :is-open="uiStore.openFormModal" @backdrop-clicked="uiStore.toggleFormModal">
-    <form @submit.prevent="addReminder" class="new-reminder">
-      <h1>Add new reminder</h1>
+  <form @submit.prevent="addReminder" class="new-reminder">
+    <h1>Add new reminder</h1>
 
-      <label for="text"> Reminder text</label>
-      <textarea
-        id="text"
-        type="text"
-        required
-        v-model.trim="reminderInput"
-        placeholder="30 characters max..."
-        :data-length="reminderInput.length > 29"
-      ></textarea>
+    <label for="text"> Reminder text</label>
+    <textarea
+      id="text"
+      type="text"
+      required
+      v-model.trim="reminderInput"
+      placeholder="30 characters max..."
+      :data-length="reminderInput.length > 29"
+    ></textarea>
 
-      <label for="date"> Date </label>
-      <input id="date" type="date" v-model="uiStore.dateClicked" required />
+    <label for="date"> Date </label>
+    <input id="date" type="date" v-model="uiStore.dateClicked" required />
 
-      <label for="time"> Time </label>
-      <input id="time" type="time" v-model="timeInput" required />
+    <label for="time"> Time </label>
+    <input id="time" type="time" v-model="timeInput" required />
 
-      <label for="city"> City </label>
-      <input id="city" type="text" v-model="cityInput" required placeholder="New york" />
+    <label for="city"> City </label>
+    <input id="city" type="text" v-model="cityInput" required placeholder="New york" />
 
-      <label for="color"> Pick a color </label>
-      <input id="color" type="color" v-model="colorInput" required />
+    <label for="color"> Pick a color </label>
+    <input id="color" type="color" v-model="colorInput" required />
 
-      <button :disabled="reminderInput.length > 29">Save reminder</button>
-    </form>
-  </CardModal>
+    <button :disabled="reminderInput.length > 29">Save reminder</button>
+  </form>
 </template>
 
 <script lang="ts" setup>
 import { useRemindersStore } from '@/stores/reminders.store'
-import { ref } from 'vue'
-import CardModal from './CardModal.vue'
 import { useUIStore } from '@/stores/ui.store'
+import { ref } from 'vue'
 
 const reminderInput = ref<string>('')
 const colorInput = ref<string>('#6c99de')
