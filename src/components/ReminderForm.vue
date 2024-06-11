@@ -20,7 +20,7 @@
       <input id="time" type="time" v-model="timeInput" required />
 
       <label for="city"> City </label>
-      <input id="city" type="text" v-model="cityInput" required />
+      <input id="city" type="text" v-model="cityInput" required placeholder="New york" />
 
       <label for="color"> Pick a color </label>
       <input id="color" type="color" v-model="colorInput" required />
