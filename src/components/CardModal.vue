@@ -1,6 +1,6 @@
 <template>
   <div v-if="isOpen" class="modal">
-    <div class="backdrop" @click="$emit('backdropClicked')"></div>
+    <div class="backdrop" @click.stop="$emit('backdropClicked')"></div>
     <slot></slot>
   </div>
 </template>
@@ -29,6 +29,7 @@ const { isOpen } = defineProps<Props>()
     height: 100%;
     backdrop-filter: blur(1px);
     background-color: rgb(0, 0, 0, 0.3);
+    z-index: 10;
   }
 
   & > *:nth-child(2) {

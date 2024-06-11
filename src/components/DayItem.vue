@@ -1,6 +1,6 @@
 <template>
   <article class="day" @click="dayClickedHandler">
-    <span>
+    <span class="date">
       <small>{{ date }}</small>
     </span>
 
@@ -38,7 +38,7 @@ const dayClickedHandler = () => {
   color: black;
   display: flex;
   flex-direction: column;
-  span {
+  .date {
     font-size: 14px;
     font-weight: 700;
     align-self: flex-start;
@@ -48,7 +48,7 @@ const dayClickedHandler = () => {
     margin-bottom: 8px;
   }
 
-  ul {
+  > *:nth-child(2) {
     flex: 1 1 0;
   }
 
