@@ -2,24 +2,36 @@
   <li
     class="reminder"
     :style="{ backgroundColor: `${reminder.color}` }"
-    @click.stop="reminderClicked"
+    @click.stop="reminderClickedHandler"
   >
     {{ reminder.text }}
   </li>
+
+  <!-- Reminder view -->
+  <CardModal :is-open="openEditForm" @backdrop-clicked="toggleEditForm">
+    <ReminderCard :reminder="reminder" />
+  </CardModal>
 </template>
 
 <script lang="ts" setup>
 import type { Reminder } from '@/interfaces/reminder.interface'
-import { defineProps } from 'vue'
+import { defineProps, ref } from 'vue'
+import CardModal from './CardModal.vue'
+import ReminderCard from './ReminderCard.vue'
 
 interface Props {
   reminder: Reminder
 }
 
 const { reminder } = defineProps<Props>()
+const openEditForm = ref(false)
 
-const reminderClicked = () => {
-  console.log('reminder clicked!', reminder)
+const toggleEditForm = () => {
+  openEditForm.value = !openEditForm.value
+}
+const reminderClickedHandler = () => {
+  openEditForm.value = true
+  // console.log('[reminderitem clicked]', reminder)
 }
 </script>
 

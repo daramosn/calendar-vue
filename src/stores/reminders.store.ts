@@ -25,9 +25,22 @@ export const useRemindersStore = defineStore('reminders', () => {
     remindersCalendar[year][month][date].push(rem)
   }
 
+  function deleteReminder(rem: Reminder) {
+    const draft = {
+      year: Number(rem.date?.split('-')[0]),
+      month: Number(rem.date?.split('-')[1]),
+      date: Number(rem.date?.split('-')[2])
+    }
+    const { date, month, year } = draft
+    const remindersList = remindersCalendar[year][month][date]
+    const index = remindersList.findIndex((reminder) => reminder.id === rem.id)
+    remindersList.splice(index, 1)
+  }
+
   return {
     remindersCalendar,
 
-    createReminder
+    createReminder,
+    deleteReminder
   }
 })
