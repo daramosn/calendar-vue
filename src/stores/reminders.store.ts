@@ -1,6 +1,6 @@
 import type { Reminder, RemindersCalendar } from '@/interfaces/reminder.interface'
 import { defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 
 export const useRemindersStore = defineStore('reminders', () => {
   const remindersCalendar = reactive<RemindersCalendar>({})
