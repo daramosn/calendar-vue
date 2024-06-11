@@ -42,12 +42,8 @@ const uiStore = useUIStore()
 
 const addReminder = () => {
   if (!uiStore.dateClicked) return
-  const draft = {
-    year: Number(uiStore.dateClicked?.split('-')[0]),
-    month: Number(uiStore.dateClicked?.split('-')[1]),
-    date: Number(uiStore.dateClicked?.split('-')[2])
-  }
-  remindersStore.createReminder(draft.year, draft.month, draft.date, {
+
+  remindersStore.createReminder({
     city: cityInput.value,
     color: colorInput.value,
     text: reminderInput.value,
