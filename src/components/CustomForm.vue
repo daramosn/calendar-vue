@@ -1,6 +1,7 @@
 <template>
-  <form @submit.prevent="addReminder" class="new-reminder">
-    <h1>Add new reminder</h1>
+  <form @submit.prevent="" class="new-reminder">
+    <h1 v-if="editMode">Edit reminder</h1>
+    <h1 v-else>Add new reminder</h1>
 
     <label for="text"> Reminder text</label>
     <textarea
@@ -24,45 +25,74 @@
     <label for="color"> Pick a color </label>
     <input id="color" type="color" v-model="colorInput" required />
 
-    <button :disabled="reminderInput.length > 29">Save reminder</button>
+    <div v-if="editMode" class="actions">
+      <button :disabled="reminderInput.length > 29" type="submit" @click="saveChangesHandler">
+        Save changes
+      </button>
+      <button @click="$emit('onClose')" type="button">Cancel</button>
+    </div>
+    <button v-else :disabled="reminderInput.length > 29" @click="addNewReminderHandler">
+      Create reminder
+    </button>
   </form>
 </template>
 
 <script lang="ts" setup>
+import type { Reminder } from '@/interfaces/reminder.interface'
 import { useRemindersStore } from '@/stores/reminders.store'
 import { ref } from 'vue'
 
 interface Props {
-  dateClicked: string
+  reminder: Reminder
+  editMode?: boolean
 }
 
-const emit = defineEmits(['reminderCreated'])
-const { dateClicked } = defineProps<Props>()
+const { reminder, editMode = false } = defineProps<Props>()
+const emit = defineEmits(['onClose'])
 
-const dateInput = ref<string>(dateClicked)
-const reminderInput = ref<string>('')
-const colorInput = ref<string>('#6c99de')
-const cityInput = ref<string>('')
-const timeInput = ref<string>('')
+const dateInput = ref<string>(reminder.date)
+const reminderInput = ref<string>(reminder.text)
+const cityInput = ref<string>(reminder.city)
+const colorInput = ref<string>(reminder.color)
+const timeInput = ref<string>(reminder.time)
+
 const remindersStore = useRemindersStore()
 
-const addReminder = () => {
-  if (!dateClicked) return
+const addNewReminderHandler = () => {
+  if (!reminder.date) return
 
   remindersStore.createReminder({
+    date: reminder.date,
+    id: crypto.randomUUID(),
+    text: reminderInput.value,
     city: cityInput.value,
     color: colorInput.value,
-    text: reminderInput.value,
-    time: timeInput.value,
-    id: crypto.randomUUID(),
-    date: dateClicked
+    time: timeInput.value
   })
 
   reminderInput.value = ''
   dateInput.value = ''
   cityInput.value = ''
   timeInput.value = ''
-  emit('reminderCreated')
+  emit('onClose')
+}
+
+const saveChangesHandler = () => {
+  const newReminder: Reminder = {
+    date: dateInput.value,
+    id: reminder.id,
+    text: reminderInput.value,
+    city: cityInput.value,
+    color: colorInput.value,
+    time: timeInput.value
+  }
+  if (newReminder.date !== reminder.date) {
+    remindersStore.createReminder(newReminder)
+    remindersStore.deleteReminder(reminder)
+  } else {
+    remindersStore.editReminder(newReminder)
+  }
+  emit('onClose')
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div @click.stop>
-    <div v-if="!openEdit" @click.stop class="reminder-card">
+    <div v-if="!openEditForm" @click.stop class="reminder-card">
       <h1 class="title">Reminder</h1>
       <section class="info">
         <article>
@@ -26,41 +26,12 @@
       </section>
 
       <div class="actions">
-        <button @click.stop="openEditToggle">Edit</button>
+        <button @click.stop="openEditFormToggle">Edit</button>
         <button @click.stop="deleteReminderHandler">Delete</button>
       </div>
     </div>
 
-    <form v-else @submit.prevent="" class="edit-reminder">
-      <h1>Edit reminder</h1>
-
-      <label for="text"> Reminder text</label>
-      <textarea
-        id="text"
-        type="text"
-        required
-        v-model.trim="reminderInput"
-        placeholder="30 characters max..."
-        :data-length="reminderInput.length > 29"
-      ></textarea>
-
-      <label for="date"> Date </label>
-      <input id="date" type="date" v-model="dateInput" required />
-
-      <label for="time"> Time </label>
-      <input id="time" type="time" v-model="timeInput" required />
-
-      <label for="city"> City </label>
-      <input id="city" type="text" v-model="cityInput" required placeholder="New york" />
-
-      <label for="color"> Pick a color </label>
-      <input id="color" type="color" v-model="colorInput" required />
-
-      <div class="actions">
-        <button :disabled="reminderInput.length > 29" @click="saveChangesHandler">Save</button>
-        <button @click="$emit('savedReminder')">Cancel</button>
-      </div>
-    </form>
+    <CustomForm v-else :reminder="reminder" :edit-mode="true" @on-close="openEditFormToggle" />
   </div>
 </template>
 
@@ -68,51 +39,23 @@
 import type { Reminder } from '@/interfaces/reminder.interface'
 import { useRemindersStore } from '@/stores/reminders.store'
 import { ref } from 'vue'
+import CustomForm from './CustomForm.vue'
 
 interface Props {
   reminder: Reminder
 }
 
 const { reminder } = defineProps<Props>()
-const emit = defineEmits(['savedReminder'])
-const openEdit = ref<boolean>(false)
-const reminderInput = ref<string>('')
-const colorInput = ref<string>('')
-const cityInput = ref<string>('')
-const timeInput = ref<string>('')
-const dateInput = ref<string>('')
+
+const openEditForm = ref<boolean>(false)
 const remindersStore = useRemindersStore()
 
-const openEditToggle = () => {
-  openEdit.value = !openEdit.value
-
-  reminderInput.value = reminder.text
-  colorInput.value = reminder.color
-  cityInput.value = reminder.city
-  timeInput.value = reminder.time
-  dateInput.value = reminder.date
+const openEditFormToggle = () => {
+  openEditForm.value = !openEditForm.value
 }
 
 const deleteReminderHandler = () => {
   remindersStore.deleteReminder(reminder)
-}
-
-const saveChangesHandler = () => {
-  const newReminder: Reminder = {
-    id: reminder.id,
-    text: reminderInput.value,
-    color: colorInput.value,
-    city: cityInput.value,
-    time: timeInput.value,
-    date: dateInput.value
-  }
-  if (newReminder.date !== reminder.date) {
-    remindersStore.createReminder(newReminder)
-    remindersStore.deleteReminder(reminder)
-  } else {
-    remindersStore.editReminder(newReminder)
-  }
-  emit('savedReminder')
 }
 </script>
 
