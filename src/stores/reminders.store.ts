@@ -23,6 +23,9 @@ export const useRemindersStore = defineStore('reminders', () => {
       remindersCalendar[year][month][date] = []
     }
     remindersCalendar[year][month][date].push(rem)
+    remindersCalendar[year][month][date].sort(
+      (a, b) => +a.time.replace(':', '') - +b.time.replace(':', '')
+    )
   }
 
   function deleteReminder(rem: Reminder) {
