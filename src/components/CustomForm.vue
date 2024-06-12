@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="" class="new-reminder">
+  <form @submit.prevent="submitFormHandler" class="new-reminder">
     <h1 v-if="editMode">Edit reminder</h1>
     <h1 v-else>Add new reminder</h1>
 
@@ -26,14 +26,10 @@
     <input id="color" type="color" v-model="colorInput" required />
 
     <div v-if="editMode" class="actions">
-      <button :disabled="reminderInput.length > 29" type="submit" @click="saveChangesHandler">
-        Save changes
-      </button>
+      <button :disabled="reminderInput.length > 29" type="submit">Save changes</button>
       <button @click="$emit('onClose')" type="button">Cancel</button>
     </div>
-    <button v-else :disabled="reminderInput.length > 29" @click="addNewReminderHandler">
-      Create reminder
-    </button>
+    <button v-else :disabled="reminderInput.length > 29">Create reminder</button>
   </form>
 </template>
 
@@ -62,7 +58,7 @@ const addNewReminderHandler = () => {
   if (!reminder.date) return
 
   remindersStore.createReminder({
-    date: reminder.date,
+    date: dateInput.value,
     id: crypto.randomUUID(),
     text: reminderInput.value,
     city: cityInput.value,
@@ -93,6 +89,11 @@ const saveChangesHandler = () => {
     remindersStore.editReminder(newReminder)
   }
   emit('onClose')
+}
+
+const submitFormHandler = () => {
+  if (editMode) return saveChangesHandler()
+  addNewReminderHandler()
 }
 </script>
 
