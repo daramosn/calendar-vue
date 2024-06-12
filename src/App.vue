@@ -35,11 +35,13 @@ const date = computed(() => {
   grid-template-rows: auto 1fr;
   header {
     display: flex;
+    align-items: center;
     gap: 16px;
     margin-bottom: 16px;
     input {
-      padding: 4px;
+      padding: 2px 8px;
       border-radius: 4px;
+      font-family: inherit;
     }
   }
 }

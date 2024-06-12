@@ -56,4 +56,13 @@ const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday
     padding: 16px 0;
   }
 }
+
+@media (width<768px) {
+  .month {
+    grid-template-rows: auto;
+  }
+  .dayname {
+    display: none;
+  }
+}
 </style>
