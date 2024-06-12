@@ -139,6 +139,12 @@ const saveChangesHandler = () => {
     }
   }
 
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+
   button {
     color: white;
     border: none;
