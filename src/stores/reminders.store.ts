@@ -1,9 +1,19 @@
 import type { Reminder, RemindersCalendar } from '@/interfaces/reminder.interface'
+import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 
 export const useRemindersStore = defineStore('reminders', () => {
-  const remindersCalendar = reactive<RemindersCalendar>({})
+  let remindersCalendar = reactive<RemindersCalendar>({})
+
+  const persistedData = useLocalStorage('reminders', {} as RemindersCalendar)
+  watch(
+    persistedData,
+    (newValue) => {
+      remindersCalendar = newValue // Update reactive state with persisted data
+    },
+    { immediate: true }
+  )
 
   function getDateParsed(rem: Reminder) {
     return {
