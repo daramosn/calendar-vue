@@ -5,13 +5,19 @@ import { reactive } from 'vue'
 export const useRemindersStore = defineStore('reminders', () => {
   const remindersCalendar = reactive<RemindersCalendar>({})
 
-  function createReminder(rem: Reminder) {
-    const draft = {
+  function getDateParsed(rem: Reminder) {
+    return {
       year: Number(rem.date?.split('-')[0]),
       month: Number(rem.date?.split('-')[1]),
       date: Number(rem.date?.split('-')[2])
     }
-    const { date, month, year } = draft
+  }
+  function sortRemindersArray(list: Reminder[]) {
+    list.sort((a, b) => +a.time.replace(':', '') - +b.time.replace(':', ''))
+  }
+
+  function createReminder(rem: Reminder) {
+    const { date, month, year } = getDateParsed(rem)
 
     if (!remindersCalendar[year]) {
       remindersCalendar[year] = {}
@@ -23,33 +29,22 @@ export const useRemindersStore = defineStore('reminders', () => {
       remindersCalendar[year][month][date] = []
     }
     remindersCalendar[year][month][date].push(rem)
-    remindersCalendar[year][month][date].sort(
-      (a, b) => +a.time.replace(':', '') - +b.time.replace(':', '')
-    )
+    sortRemindersArray(remindersCalendar[year][month][date])
   }
 
   function deleteReminder(rem: Reminder) {
-    const draft = {
-      year: Number(rem.date?.split('-')[0]),
-      month: Number(rem.date?.split('-')[1]),
-      date: Number(rem.date?.split('-')[2])
-    }
-    const { date, month, year } = draft
+    const { date, month, year } = getDateParsed(rem)
     const remindersList = remindersCalendar[year][month][date]
     const index = remindersList.findIndex((reminder) => reminder.id === rem.id)
     remindersList.splice(index, 1)
   }
 
   function editReminder(rem: Reminder) {
-    const draft = {
-      year: Number(rem.date?.split('-')[0]),
-      month: Number(rem.date?.split('-')[1]),
-      date: Number(rem.date?.split('-')[2])
-    }
-    const { date, month, year } = draft
+    const { date, month, year } = getDateParsed(rem)
     const remindersList = remindersCalendar[year][month][date]
     const index = remindersList.findIndex((reminder) => reminder.id === rem.id)
     remindersList[index] = { ...remindersList[index], ...rem }
+    sortRemindersArray(remindersCalendar[year][month][date])
   }
 
   return {
