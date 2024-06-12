@@ -2,7 +2,7 @@
   <section class="month">
     <span class="dayname" v-for="(name, index) in dayName" :key="index">{{ name }}</span>
 
-    <div v-for="index in firstDayOfWeek" :key="'empty-' + index"></div>
+    <div v-for="index in firstDay" :key="'empty-' + index"></div>
 
     <DayItem
       v-for="date in days"
@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import type { Reminder } from '@/interfaces/reminder.interface'
-import { computed, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import CardModal from './CardModal.vue'
 import CustomForm from './CustomForm.vue'
 import DayItem from './DayItem.vue'
@@ -34,9 +34,10 @@ interface Props {
   year: number
   month: number
   days: number
+  firstDay: number
 }
 
-const { month, year, days } = defineProps<Props>()
+const { month, year, days, firstDay } = defineProps<Props>()
 const openForm = ref<boolean>(false)
 const draftReminder = reactive<Reminder>({
   date: '',
@@ -57,11 +58,6 @@ const openFormToggle = () => {
 }
 
 const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
-// TODO: fix the skipped space rendering
-let firstDayOfWeek = computed(() => {
-  return new Date(year, month - 1, 1).getDay()
-})
 </script>
 
 <style>

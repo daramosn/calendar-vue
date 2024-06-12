@@ -1,11 +1,11 @@
 <template>
   <div class="layout">
     <header>
-      <span @click="counter++">Calendar app</span>
+      <span>Calendapp</span>
       <input type="month" v-model="dateInput" />
     </header>
     <main>
-      <MyMonth :year="date.year" :month="date.month" :days="date.days" />
+      <MyMonth :year="date.year" :month="date.month" :days="date.days" :first-day="firstDay" />
     </main>
   </div>
 </template>
@@ -15,7 +15,6 @@ import { computed, ref } from 'vue'
 import MyMonth from './components/MyMonth.vue'
 
 const dateInput = ref<string>('2024-02')
-const counter = ref<number>(0)
 
 const date = computed(() => {
   return {
@@ -23,6 +22,10 @@ const date = computed(() => {
     month: +dateInput.value.split('-')[1],
     days: new Date(+dateInput.value.split('-')[0], +dateInput.value.split('-')[1], 0).getDate()
   }
+})
+
+const firstDay = computed(() => {
+  return new Date(date.value.year, date.value.month - 1, 1).getDay()
 })
 </script>
 
