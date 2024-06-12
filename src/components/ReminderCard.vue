@@ -20,6 +20,10 @@
           <p>{{ reminder.time }}</p>
         </article>
         <article>
+          <label for="">Weather </label>
+          <WeatherItem :city="reminder.city" :date="reminder.date" />
+        </article>
+        <article>
           <label for="">Color</label>
           <div :style="{ backgroundColor: reminder.color }" class="color"></div>
         </article>
@@ -40,6 +44,7 @@ import type { Reminder } from '@/interfaces/reminder.interface'
 import { useRemindersStore } from '@/stores/reminders.store'
 import { ref } from 'vue'
 import CustomForm from './CustomForm.vue'
+import WeatherItem from './WeatherItem.vue'
 
 interface Props {
   reminder: Reminder
