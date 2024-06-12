@@ -1,5 +1,5 @@
 <template>
-  <article class="day" @click="dayClickedHandler">
+  <article class="day" @click="dateClickedHandler">
     <span class="date">
       <small>{{ date }}</small>
     </span>
@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useUIStore } from '@/stores/ui.store'
 import RemindersList from './RemindersList.vue'
 
 interface Props {
@@ -19,13 +18,11 @@ interface Props {
 }
 
 const { date, month, year } = defineProps<Props>()
-const uiStore = useUIStore()
+const emit = defineEmits(['dateClicked'])
 
-const dayClickedHandler = () => {
-  uiStore.toggleFormModal()
-  uiStore.updateDateClicked(
-    `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`
-  )
+const dateClickedHandler = () => {
+  const dateString = `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`
+  emit('dateClicked', dateString)
 }
 </script>
 

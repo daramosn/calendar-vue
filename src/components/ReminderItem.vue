@@ -9,7 +9,7 @@
 
   <!-- Reminder view -->
   <CardModal :is-open="openEditForm" @backdrop-clicked="toggleEditForm">
-    <ReminderCard :reminder="reminder" />
+    <ReminderCard :reminder="reminder" @saved-reminder="toggleEditForm" />
   </CardModal>
 </template>
 
@@ -31,7 +31,6 @@ const toggleEditForm = () => {
 }
 const reminderClickedHandler = () => {
   openEditForm.value = true
-  // console.log('[reminderitem clicked]', reminder)
 }
 </script>
 

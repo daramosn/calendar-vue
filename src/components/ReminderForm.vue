@@ -13,7 +13,7 @@
     ></textarea>
 
     <label for="date"> Date </label>
-    <input id="date" type="date" v-model="uiStore.dateClicked" required />
+    <input id="date" type="date" v-model="dateInput" required />
 
     <label for="time"> Time </label>
     <input id="time" type="time" v-model="timeInput" required />
@@ -30,18 +30,24 @@
 
 <script lang="ts" setup>
 import { useRemindersStore } from '@/stores/reminders.store'
-import { useUIStore } from '@/stores/ui.store'
 import { ref } from 'vue'
 
+interface Props {
+  dateClicked: string
+}
+
+const emit = defineEmits(['reminderCreated'])
+const { dateClicked } = defineProps<Props>()
+
+const dateInput = ref<string>(dateClicked)
 const reminderInput = ref<string>('')
 const colorInput = ref<string>('#6c99de')
 const cityInput = ref<string>('')
 const timeInput = ref<string>('')
 const remindersStore = useRemindersStore()
-const uiStore = useUIStore()
 
 const addReminder = () => {
-  if (!uiStore.dateClicked) return
+  if (!dateClicked) return
 
   remindersStore.createReminder({
     city: cityInput.value,
@@ -49,14 +55,14 @@ const addReminder = () => {
     text: reminderInput.value,
     time: timeInput.value,
     id: crypto.randomUUID(),
-    date: uiStore.dateClicked
+    date: dateClicked
   })
 
   reminderInput.value = ''
+  dateInput.value = ''
   cityInput.value = ''
   timeInput.value = ''
-  uiStore.updateDateClicked('')
-  uiStore.toggleFormModal()
+  emit('reminderCreated')
 }
 </script>
 

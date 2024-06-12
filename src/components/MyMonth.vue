@@ -1,15 +1,22 @@
 <template>
   <section class="month">
-    <DayItem v-for="date in monthArray" :key="date" :month="month" :year="year" :date="date" />
+    <DayItem
+      v-for="date in monthArray"
+      :key="date"
+      :month="month"
+      :year="year"
+      :date="date"
+      @date-clicked="dateClickedHandler"
+    />
   </section>
 
-  <CardModal :is-open="uiStore.openFormModal" @backdrop-clicked="uiStore.toggleFormModal">
-    <ReminderForm />
+  <CardModal :is-open="openForm" @backdrop-clicked="openFormToggle">
+    <ReminderForm :date-clicked="dateClickedString" @reminder-created="openFormToggle" />
   </CardModal>
 </template>
 
 <script lang="ts" setup>
-import { useUIStore } from '@/stores/ui.store'
+import { ref } from 'vue'
 import CardModal from './CardModal.vue'
 import DayItem from './DayItem.vue'
 import ReminderForm from './ReminderForm.vue'
@@ -19,7 +26,17 @@ interface Props {
 }
 
 const { month, year } = defineProps<Props>()
-const uiStore = useUIStore()
+const openForm = ref<boolean>(false)
+const dateClickedString = ref<string>('')
+
+const dateClickedHandler = (dateClicked: string) => {
+  openFormToggle()
+  dateClickedString.value = dateClicked
+}
+
+const openFormToggle = () => {
+  openForm.value = !openForm.value
+}
 
 // const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
