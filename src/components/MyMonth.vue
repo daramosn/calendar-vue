@@ -1,17 +1,21 @@
 <template>
   <section class="month">
-    <span class="dayname" v-for="(name, index) in dayName" :key="index">{{ name }}</span>
+    <div class="daynames">
+      <span v-for="(name, index) in dayName" :key="index">{{ name }}</span>
+    </div>
 
-    <div v-for="index in firstDay" :key="'empty-' + index"></div>
+    <div class="days">
+      <div v-for="index in firstDay" :key="'empty-' + index"></div>
 
-    <DayItem
-      v-for="date in days"
-      :key="`${year}-${month}-${date}`"
-      :month="month"
-      :year="year"
-      :date="date"
-      @date-clicked="dateClickedHandler"
-    />
+      <DayItem
+        v-for="date in days"
+        :key="`${year}-${month}-${date}`"
+        :month="month"
+        :year="year"
+        :date="date"
+        @date-clicked="dateClickedHandler"
+      />
+    </div>
   </section>
 
   <CardModal :is-open="openForm" @backdrop-clicked="openFormToggle">
@@ -57,28 +61,30 @@ const openFormToggle = () => {
   openForm.value = !openForm.value
 }
 
-const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 </script>
 
 <style>
 .month {
   display: grid;
   height: 100%;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 50px auto;
-  gap: 2px;
+  grid-template-rows: auto 1fr;
+  gap: 4px;
 
-  .dayname {
-    padding: 16px 0;
+  .daynames {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-size: clamp(0.875rem, 0.3512rem + 2.1488vw, 2.5rem);
+    opacity: 0.8;
+  }
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto;
+    gap: 2px;
   }
 }
 
 @media (width<768px) {
-  .month {
-    grid-template-rows: auto;
-  }
-  .dayname {
-    display: none;
-  }
 }
 </style>

@@ -34,13 +34,17 @@ const reminderClickedHandler = () => {
 }
 </script>
 
-<style scoped>
+<style>
 .reminder {
   color: white;
   margin-bottom: 4px;
   padding: 4px;
-
   border-radius: 4px;
   font-size: 12px;
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+  &:hover {
+    transform: translateX(2px);
+  }
 }
 </style>

@@ -31,7 +31,7 @@ const firstDay = computed(() => {
 
 <style>
 .layout {
-  padding: 32px max(32px, calc((100% - var(--body)) / 2));
+  padding: 32px max(16px, calc((100% - var(--body)) / 2));
   min-height: 100svh;
   height: 100svh;
   display: grid;

@@ -29,7 +29,7 @@ const dateClickedHandler = () => {
 <style>
 .day {
   height: 100%;
-  background-color: aliceblue;
+  background-color: #e6f3ff;
   border-radius: 2px;
   padding: 8px;
   color: black;
