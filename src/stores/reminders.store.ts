@@ -27,6 +27,7 @@ export const useRemindersStore = defineStore('reminders', () => {
   }
 
   function createReminder(rem: Reminder) {
+    if (rem.text.length > 30) throw new Error('Reminder text exceeds 30 characters')
     const { date, month, year } = getDateParsed(rem)
 
     if (!remindersCalendar[year]) {
