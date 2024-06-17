@@ -49,6 +49,12 @@ const dragReminderHandler = (event: DragEvent, rem: Reminder) => {
   font-size: 12px;
   cursor: pointer;
   transition: all 0.1s ease-out;
+
+  width: clamp(2rem, -1.4306rem + 14.0741vw, 9.125rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   &:hover {
     transform: translateX(2px);
   }
