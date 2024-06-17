@@ -103,14 +103,13 @@ const submitFormHandler = () => {
   background-color: white;
   border-radius: 8px;
   display: grid;
-  padding: 64px;
+  padding: 32px;
 
   h1 {
     font-weight: 500;
     margin: 0 0 64px 0;
   }
   textarea {
-    width: 360px;
     font-family: inherit;
     padding: 8px;
     margin-bottom: 16px;

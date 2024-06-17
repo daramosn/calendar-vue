@@ -68,7 +68,7 @@ const deleteReminderHandler = () => {
 .reminder-card {
   background-color: white;
   padding: 20px;
-  min-width: 350px;
+  margin: 0 16px;
   border-radius: 8px;
   .title {
     margin-top: 0;
