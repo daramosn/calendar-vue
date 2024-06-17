@@ -1,5 +1,10 @@
 <template>
-  <article class="day" @click="dateClickedHandler">
+  <article
+    class="day"
+    @click="dateClickedHandler"
+    @dragover.prevent
+    @drop.prevent="dropReminderHandler"
+  >
     <span class="date">
       <small>{{ date }}</small>
     </span>
@@ -9,7 +14,11 @@
 </template>
 
 <script lang="ts" setup>
+import { useRemindersStore } from '@/stores/reminders.store'
 import RemindersList from './RemindersList.vue'
+import type { Reminder } from '@/interfaces/reminder.interface'
+
+const remindersStore = useRemindersStore()
 
 interface Props {
   date: number
@@ -23,6 +32,18 @@ const emit = defineEmits(['dateClicked'])
 const dateClickedHandler = () => {
   const dateString = `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`
   emit('dateClicked', dateString)
+}
+
+const dropReminderHandler = (event: DragEvent) => {
+  const stringReminder = event.dataTransfer?.getData('dragged-reminder')
+  if (!stringReminder) return
+  const reminder: Reminder = JSON.parse(stringReminder)
+
+  remindersStore.deleteReminder(reminder)
+  remindersStore.createReminder({
+    ...reminder,
+    date: `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`
+  })
 }
 </script>
 

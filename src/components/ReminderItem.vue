@@ -1,7 +1,9 @@
 <template>
   <li
+    draggable="true"
     class="reminder"
     :style="{ backgroundColor: `${reminder.color}` }"
+    @dragstart="dragReminderHandler($event, reminder)"
     @click.stop="reminderClickedHandler"
   >
     {{ reminder.text }}
@@ -31,6 +33,10 @@ const toggleEditForm = () => {
 }
 const reminderClickedHandler = () => {
   openEditForm.value = true
+}
+
+const dragReminderHandler = (event: DragEvent, rem: Reminder) => {
+  event.dataTransfer?.setData('dragged-reminder', JSON.stringify(rem))
 }
 </script>
 
