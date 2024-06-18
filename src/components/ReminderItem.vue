@@ -54,6 +54,7 @@ const dragReminderHandler = (event: DragEvent, rem: Reminder) => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: grab;
 
   &:hover {
     transform: translateX(2px);
