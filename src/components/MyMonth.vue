@@ -5,14 +5,13 @@
     </div>
 
     <div class="days">
-      <div v-for="index in firstDay" :key="'empty-' + index"></div>
-
       <DayItem
-        v-for="date in days"
+        v-for="{ date, month, year } in daysList"
         :key="`${year}-${month}-${date}`"
         :month="month"
         :year="year"
         :date="date"
+        :not-current-month="month !== currentMonth"
         @date-clicked="dateClickedHandler"
       />
     </div>
@@ -35,13 +34,15 @@ import CustomForm from './CustomForm.vue'
 import DayItem from './DayItem.vue'
 
 interface Props {
-  year: number
-  month: number
-  days: number
-  firstDay: number
+  daysList: {
+    year: number
+    month: number
+    date: number
+  }[]
+  currentMonth: number
 }
 
-const { month, year, days, firstDay } = defineProps<Props>()
+const { daysList, currentMonth } = defineProps<Props>()
 const openForm = ref<boolean>(false)
 const draftReminder = reactive<Reminder>({
   date: '',
@@ -76,6 +77,7 @@ const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     grid-template-columns: repeat(7, 1fr);
     font-size: clamp(0.875rem, 0.3512rem + 2.1488vw, 2.5rem);
     opacity: 0.8;
+    gap: 2px;
   }
   .days {
     display: grid;

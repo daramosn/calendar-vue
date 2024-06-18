@@ -5,7 +5,7 @@
       <input type="month" v-model="dateInput" />
     </header>
     <main>
-      <MyMonth :year="date.year" :month="date.month" :days="date.days" :first-day="firstDay" />
+      <MyMonth :daysList="daysList" :currentMonth="currentMonth" />
     </main>
   </div>
 </template>
@@ -14,18 +14,41 @@
 import { computed, ref } from 'vue'
 import MyMonth from './components/MyMonth.vue'
 
-const dateInput = ref<string>('2024-02')
+const dateInput = ref<string>('2024-06')
 
-const date = computed(() => {
-  return {
-    year: +dateInput.value.split('-')[0],
-    month: +dateInput.value.split('-')[1],
-    days: new Date(+dateInput.value.split('-')[0], +dateInput.value.split('-')[1], 0).getDate()
+const currentMonth = computed(() => +dateInput.value.split('-')[1])
+
+const daysList = computed(() => {
+  let list = []
+  const year = +dateInput.value.split('-')[0]
+  const month = +dateInput.value.split('-')[1]
+  const days = new Date(year, month, 0).getDate()
+  const firstDay = new Date(year, month - 1, 1).getDay()
+
+  for (let i = 1; i <= firstDay; i++) {
+    list.push({
+      year: year,
+      month: month - 1,
+      date: new Date(year, month - 1, 0).getDate() - firstDay + i
+    })
   }
-})
+  for (let i = 1; i <= days; i++) {
+    list.push({
+      year: year,
+      month: month,
+      date: i
+    })
+  }
 
-const firstDay = computed(() => {
-  return new Date(date.value.year, date.value.month - 1, 1).getDay()
+  const maxDaysInMonth = Math.ceil(list.length / 7) * 7
+  for (let i = 1; list.length < maxDaysInMonth; i++) {
+    list.push({
+      year: year,
+      month: month + 1,
+      date: i
+    })
+  }
+  return list
 })
 </script>
 
