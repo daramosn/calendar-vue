@@ -59,7 +59,7 @@ const dropReminderHandler = (event: DragEvent) => {
   flex-direction: column;
 
   &[data-fade='true'] {
-    filter: brightness(0.93);
+    background-color: #c5d7e8;
   }
   .date {
     font-size: 14px;
