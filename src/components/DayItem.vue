@@ -5,6 +5,9 @@
     @dragover.prevent
     @drop.prevent="dropReminderHandler"
     :data-fade="notCurrentMonth"
+    @dragleave="dragOverHandler"
+    @dragenter="dragOverHandler"
+    :data-dragover="dragOver"
   >
     <span class="date">
       <small>{{ date }}</small>
@@ -18,6 +21,7 @@
 import type { Reminder } from '@/interfaces/reminder.interface'
 import { useRemindersStore } from '@/stores/reminders.store'
 import RemindersList from './RemindersList.vue'
+import { ref } from 'vue'
 
 const remindersStore = useRemindersStore()
 
@@ -30,6 +34,7 @@ interface Props {
 
 const { date, month, year, notCurrentMonth } = defineProps<Props>()
 const emit = defineEmits(['dateClicked'])
+const dragOver = ref(false)
 
 const dateClickedHandler = () => {
   const dateString = `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`
@@ -46,6 +51,11 @@ const dropReminderHandler = (event: DragEvent) => {
     ...reminder,
     date: `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`
   })
+  dragOver.value = false
+}
+
+const dragOverHandler = () => {
+  dragOver.value = !dragOver.value
 }
 </script>
 
@@ -57,9 +67,15 @@ const dropReminderHandler = (event: DragEvent) => {
   color: black;
   display: flex;
   flex-direction: column;
+  transition: all 0.1s ease-out;
+  border-radius: 2px;
 
   &[data-fade='true'] {
     background-color: #c5d7e8;
+  }
+
+  &[data-dragover='true'] {
+    background-color: #b6dbfa;
   }
   .date {
     font-size: 14px;
