@@ -14,7 +14,9 @@
 import { computed, ref } from 'vue'
 import MyMonth from './components/MyMonth.vue'
 
-const dateInput = ref<string>('2024-06')
+const dateInput = ref<string>(
+  `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}`
+)
 
 const currentMonth = computed(() => +dateInput.value.split('-')[1])
 
